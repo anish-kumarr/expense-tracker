@@ -1,0 +1,30 @@
+<div>
+    <div class="flex flex-col justify-center h-[85vh] m-auto"
+    [ngClass]="{'file-drag': fileUpload.isDragging}"
+    aria-label="Drop files here or click to upload"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onFileDrop($event)"
+    >
+        <!-- <div *ngIf="fileUpload.isDragging" class="relative z-10 flex items-center justify-center text-center">Drop file here!</div> -->
+        <div *ngIf="fileUpload.filePreview" class="flex flex-col items-center justify-center mb-5">
+            <img [src]="fileUpload.filePreview" class="object-cover p-3 border border-gray-200 border-dashed rounded-md w-28 h-36"/>
+            <div *ngIf="fileUpload.fileName" class="mt-1">{{fileUpload.fileName}}</div>
+        </div>
+        <div class="flex flex-col items-center justify-center">
+            <div *ngIf="uploadState === 'Pending'">
+                <div *ngIf="!fileUpload.isDragging" class="flex justify-center">
+                    <label for="inputFile" class="bg-green-500 btn hover:bg-green-800 hover:text-white" (click)="fileInput.click()">Browse File</label>
+                    <input id="inputFile" type="file"
+                     accept=".jpeg, .jpg, .png, .pdf" (change)="onFileSelected($event)" hidden #fileInput/>
+                </div>
+                <div class="mt-2" [ngClass]="{'relative z-10': fileUpload.isDragging}">Drag & Drop a file</div>
+            </div>
+            <div *ngIf="uploadState !== 'Pending'" class="flex justify-center">
+                <button class="mr-3 bg-green-500 btn" (click)="onSubmit()">Submit</button>
+                <button class="bg-red-500 btn" (click)="onClear()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
